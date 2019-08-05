@@ -18,6 +18,13 @@ def extract_features(word_list):
     return dict([(word, True) for word in word_list])
 
 
+def tokenise(text):
+    filter = "!\"£$%^&*()_+=[]{}:;@',<.>/?`¬¦|\\"
+    for i in filter:
+        text = text.replace(i, "")
+    return text.split(" ")
+
+
 def transform(message):
     return message.content
 
@@ -73,7 +80,7 @@ async def log(ctx):
 
 @client.event
 async def on_message(ctx):
-    probdist = classifier.prob_classify(extract_features(ctx.content.split()))
+    probdist = classifier.prob_classify(extract_features(tokenise(ctx.content.lower())))
     pred_sentiment = probdist.max()
     print("Message: ", ctx.content)
     print("Sentiment: ", pred_sentiment)
@@ -83,5 +90,9 @@ async def on_message(ctx):
 @client.event
 async def on_ready():
     print("Ready\n\n")
+
+
+# In[19]:
+
 
 client.run(TOKEN)
