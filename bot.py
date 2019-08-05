@@ -84,8 +84,4 @@ async def on_message(ctx):
 async def on_ready():
     print("Ready\n\n")
 
-
-# In[19]:
-
-
 client.run(TOKEN)
